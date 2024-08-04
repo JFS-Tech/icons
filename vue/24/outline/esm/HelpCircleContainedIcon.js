@@ -1,0 +1,19 @@
+import { createElementVNode as _createElementVNode, openBlock as _openBlock, createElementBlock as _createElementBlock } from "vue"
+
+export default function render(_ctx, _cache) {
+  return (_openBlock(), _createElementBlock("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    "stroke-width": "1.5",
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon"
+  }, [
+    _createElementVNode("path", {
+      "stroke-linecap": "round",
+      "stroke-linejoin": "round",
+      d: "M11.999 16.5v.04M9.75 9.23c0-1.266 1.007-2.293 2.25-2.293s2.25 1.027 2.25 2.293-1.007 2.293-2.25 2.293l-.001 1.528M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0"
+    })
+  ]))
+}

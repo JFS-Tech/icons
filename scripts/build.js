@@ -158,14 +158,6 @@ async function buildExports(styles) {
   // For those that want to read the version from package.json
   pkg[`./package.json`] = { default: './package.json' }
 
-  // Backwards compatibility with v1 imports (points to proxy that prints an error message):
-  pkg['./outline'] = { default: './outline/index.js' }
-  pkg['./outline/index'] = { default: './outline/index.js' }
-  pkg['./outline/index.js'] = { default: './outline/index.js' }
-  pkg['./solid'] = { default: './solid/index.js' }
-  pkg['./solid/index'] = { default: './solid/index.js' }
-  pkg['./solid/index.js'] = { default: './solid/index.js' }
-
   // Explicit exports for each style:
   for (let style of styles) {
     pkg[`./${style}`] = {
@@ -206,34 +198,19 @@ async function main(package) {
   console.log(`Building ${package} package...`)
 
   await Promise.all([
-    rimraf(`./${package}/16/solid/*`),
-    rimraf(`./${package}/20/solid/*`),
     rimraf(`./${package}/24/outline/*`),
-    rimraf(`./${package}/24/solid/*`),
   ])
 
   await Promise.all([
-    buildIcons(package, '16/solid', 'cjs'),
-    buildIcons(package, '16/solid', 'esm'),
-    buildIcons(package, '20/solid', 'cjs'),
-    buildIcons(package, '20/solid', 'esm'),
     buildIcons(package, '24/outline', 'cjs'),
     buildIcons(package, '24/outline', 'esm'),
-    buildIcons(package, '24/solid', 'cjs'),
-    buildIcons(package, '24/solid', 'esm'),
-    ensureWriteJson(`./${package}/16/solid/esm/package.json`, esmPackageJson),
-    ensureWriteJson(`./${package}/16/solid/package.json`, cjsPackageJson),
-    ensureWriteJson(`./${package}/20/solid/esm/package.json`, esmPackageJson),
-    ensureWriteJson(`./${package}/20/solid/package.json`, cjsPackageJson),
     ensureWriteJson(`./${package}/24/outline/esm/package.json`, esmPackageJson),
     ensureWriteJson(`./${package}/24/outline/package.json`, cjsPackageJson),
-    ensureWriteJson(`./${package}/24/solid/esm/package.json`, esmPackageJson),
-    ensureWriteJson(`./${package}/24/solid/package.json`, cjsPackageJson),
   ])
 
   let packageJson = JSON.parse(await fs.readFile(`./${package}/package.json`, 'utf8'))
 
-  packageJson.exports = await buildExports(['16/solid', '20/solid', '24/outline', '24/solid'])
+  packageJson.exports = await buildExports(['24/outline'])
 
   await ensureWriteJson(`./${package}/package.json`, packageJson)
 
