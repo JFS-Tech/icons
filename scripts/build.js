@@ -88,7 +88,7 @@ function exportAll(icons, format, includeExtension = true) {
       }
       return `module.exports.${componentName} = require("./${componentName}${extension}")`
     })
-    .join('\n')
+    .join('\n');
 }
 
 async function ensureWrite(file, text) {
